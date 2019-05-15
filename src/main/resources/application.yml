@@ -1,0 +1,15 @@
+spring:
+  liquibase:
+    change-log: classpath:/db/config/db.changelog-master.xml
+  datasource:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        jdbc:
+          lob:
+            non_contextual_creation: true
+service:
+  name: ${SERVICE_NAME}

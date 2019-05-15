@@ -1,0 +1,38 @@
+version: '3.7'
+
+services:
+  postgres:
+    image: 'postgres'
+    ports:
+      - '5432:5432'
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - './init.sql:/docker-entrypoint-initdb.d/init.sql'
+
+  a:
+    build:
+      context: ./
+    ports:
+      - '8080:8080'
+    depends_on:
+      - postgres
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/test?currentSchema=test_schema
+      SERVICE_NAME: A
+  b:
+    build:
+      context: ./
+    ports:
+      - '8081:8080'
+    depends_on:
+      - postgres
+      - a
+    environment:
+      POSTGRES_USER: test_user
+      POSTGRES_PASSWORD: test
+      POSTGRES_URL: jdbc:postgresql://postgres:5432/test?currentSchema=test_schema
+      SERVICE_NAME: B
