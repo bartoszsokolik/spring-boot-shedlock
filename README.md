@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/bartoszsokolik/spring-boot-shedlock.svg?branch=master)](https://travis-ci.org/bartoszsokolik/spring-boot-shedlock)
+
 ## About
 
 Example Gradle project with Spring-Boot and Shedlock. Purpose of this project is to show Shedlock configuration for Spring-Boot application.
