@@ -1,3 +1,10 @@
 FROM openjdk:11-jre-slim
 ADD /build/libs/application.jar application.jar
-ENTRYPOINT ["java", "-jar", "application.jar"]
+
+ADD run.sh /run.sh
+RUN chmod +x /run.sh
+
+ADD wait-for-it.sh /wait-for-it.sh
+RUN chmod +x /wait-for-it.sh
+
+CMD ["/run.sh"]

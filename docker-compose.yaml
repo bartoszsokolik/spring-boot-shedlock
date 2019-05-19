@@ -19,10 +19,12 @@ services:
     depends_on:
       - postgres
     environment:
-      POSTGRES_USER: test_user
-      POSTGRES_PASSWORD: test
+      POSTGRES_USER: production_user
+      POSTGRES_PASSWORD: production
       POSTGRES_URL: jdbc:postgresql://postgres:5432/test?currentSchema=test_schema
       SERVICE_NAME: A
+      APP_OPTS: --spring.datasource.url=jdbc:postgresql://postgres:5432/production?currentSchema=production_schema
+    entrypoint: './wait-for-it.sh -t 10 postgres:5432 -- /run.sh'
   b:
     build:
       context: ./
@@ -32,7 +34,9 @@ services:
       - postgres
       - a
     environment:
-      POSTGRES_USER: test_user
-      POSTGRES_PASSWORD: test
+      POSTGRES_USER: production_user
+      POSTGRES_PASSWORD: production
       POSTGRES_URL: jdbc:postgresql://postgres:5432/test?currentSchema=test_schema
       SERVICE_NAME: B
+      APP_OPTS: --spring.datasource.url=jdbc:postgresql://postgres:5432/production?currentSchema=production_schema
+    entrypoint: './wait-for-it.sh -t 120 a:8080 -- /run.sh'
